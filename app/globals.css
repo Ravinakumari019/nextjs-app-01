@@ -1,0 +1,88 @@
+@import "tailwindcss";
+
+:root {
+  --background: #060a12;
+  --foreground: #e2e8f0;
+  --accent: #3b82f6;
+  --accent-bright: #60a5fa;
+  --panel: rgba(15, 23, 42, 0.75);
+  --panel-border: rgba(59, 130, 246, 0.25);
+  --glow: rgba(59, 130, 246, 0.35);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+}
+
+.todo-panel {
+  background: var(--panel);
+  border: 1px solid var(--panel-border);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow:
+    0 0 40px rgba(37, 99, 235, 0.12),
+    inset 0 1px 0 rgba(96, 165, 250, 0.08);
+  backdrop-filter: blur(12px);
+}
+
+.todo-input {
+  background: rgba(2, 6, 23, 0.8);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  color: #f1f5f9;
+}
+
+.todo-input::placeholder {
+  color: #64748b;
+}
+
+.todo-input:focus {
+  border-color: rgba(96, 165, 250, 0.6);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15), 0 0 20px rgba(59, 130, 246, 0.2);
+}
+
+.todo-btn {
+  background: linear-gradient(135deg, #2563eb, #06b6d4);
+  color: #fff;
+  box-shadow: 0 0 20px var(--glow);
+}
+
+.todo-btn:hover:not(:disabled) {
+  box-shadow: 0 0 28px rgba(59, 130, 246, 0.55);
+  filter: brightness(1.08);
+}
+
+.todo-list {
+  background: rgba(2, 6, 23, 0.5);
+  border: 1px solid rgba(59, 130, 246, 0.15);
+  overflow: hidden;
+}
+
+.todo-item {
+  transition: background 0.15s ease;
+}
+
+.todo-item:hover {
+  background: rgba(59, 130, 246, 0.06);
+}
+
+.todo-checkbox {
+  border-color: rgba(59, 130, 246, 0.35);
+  box-shadow: inset 0 0 8px rgba(59, 130, 246, 0.05);
+}
+
+.peer:checked + .todo-checkbox {
+  box-shadow: 0 0 12px rgba(59, 130, 246, 0.4);
+}
+
+.peer:checked + .todo-checkbox svg {
+  opacity: 1;
+}
