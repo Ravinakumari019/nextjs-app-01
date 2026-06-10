@@ -1,5 +1,7 @@
+import { revalidatePath } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
+import { serializeTodo } from "@/lib/todo";
 
 type RouteContext = { params: Promise<{ id: string }> };
 
@@ -17,7 +19,10 @@ export async function GET(_request: NextRequest, ctx: RouteContext) {
       );
     }
 
-    return NextResponse.json({ success: true, data: todo }, { status: 200 });
+    return NextResponse.json(
+      { success: true, data: serializeTodo(todo) },
+      { status: 200 },
+    );
   } catch (error) {
     console.log(error);
     return NextResponse.json(
@@ -41,7 +46,12 @@ export async function PATCH(request: NextRequest, ctx: RouteContext) {
       },
     });
 
-    return NextResponse.json({ success: true, data: todo }, { status: 200 });
+    revalidatePath("/");
+
+    return NextResponse.json(
+      { success: true, data: serializeTodo(todo) },
+      { status: 200 },
+    );
   } catch (error) {
     console.log(error);
     return NextResponse.json(
@@ -58,6 +68,8 @@ export async function DELETE(_request: NextRequest, ctx: RouteContext) {
     await prisma.todo.delete({
       where: { id },
     });
+
+    revalidatePath("/");
 
     return NextResponse.json({ success: true }, { status: 200 });
   } catch (error) {

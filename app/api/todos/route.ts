@@ -1,13 +1,17 @@
+import { revalidatePath } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/lib/db"
+import { prisma } from "@/lib/db";
+import { serializeTodo } from "@/lib/todo";
 
 
 export async function GET() {
     try {
-        const todos = await prisma.todo.findMany();
+        const todos = await prisma.todo.findMany({
+            orderBy: { createdAt: "desc" },
+        });
 
         return NextResponse.json(
-            { success: true, data: todos },
+            { success: true, data: todos.map(serializeTodo) },
             { status: 200 }
         )
     } catch (error) {
@@ -33,13 +37,13 @@ export async function POST(request: NextRequest) {
         }
 
         const todo = await prisma.todo.create({
-            data: {
-                title: title
-            }
+            data: { title: title.trim() },
         });
 
+        revalidatePath("/");
+
         return NextResponse.json(
-            { success: true, data: todo },
+            { success: true, data: serializeTodo(todo) },
             { status: 201 }
         )
     } catch (error) {

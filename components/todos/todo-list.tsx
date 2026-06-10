@@ -1,8 +1,8 @@
-import { fetchTodos } from "@/lib/todo";
+import { getTodos } from "@/lib/todo";
 import { TodoApp } from "./todo-app";
 
 export async function TodoList() {
-  const todos = await fetchTodos();
+  const todos = await getTodos();
 
   return <TodoApp initialTodos={todos} />;
 }

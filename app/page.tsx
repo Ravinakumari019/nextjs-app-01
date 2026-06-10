@@ -1,6 +1,8 @@
 import { Suspense } from "react";
 import { TodoList } from "@/components/todos/todo-list";
 
+export const dynamic = "force-dynamic";
+
 function TodoListFallback() {
   return (
     <div className="todo-panel w-full max-w-xl animate-pulse space-y-4">

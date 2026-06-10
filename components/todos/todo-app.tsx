@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import type { Todo } from "@/lib/todo";
 
@@ -13,10 +13,6 @@ export function TodoApp({ initialTodos }: TodoAppProps) {
   const [todos, setTodos] = useState(initialTodos);
   const [title, setTitle] = useState("");
   const [pending, setPending] = useState(false);
-
-  useEffect(() => {
-    setTodos(initialTodos);
-  }, [initialTodos]);
 
   async function handleAdd(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
